@@ -126,6 +126,12 @@ assets = {
 
 ## Development Workflow
 
+### Remote Policy
+
+- Treat `upstream` (`G4brym/R2-Explorer`) as fetch-only.
+- Never push to `upstream` or any non-NightSquawk remote.
+- Pushes, when explicitly requested, may only target the NightSquawk-owned `origin` remote (`NightSquawk/explorer-nightsquawk-tech`).
+
 ### Prerequisites
 - Node.js (v16+)
 - pnpm package manager
