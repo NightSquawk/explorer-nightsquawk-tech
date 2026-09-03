@@ -17,7 +17,7 @@
 		"@quasar/cli": "^2.4.1",
 		"@quasar/extras": "^1.16.15",
 		"axios": "^1.2.1",
-		"fflate": "^0.8.1",
+		"fflate": "^0.8.3",
 		"html-to-text": "^9.0.5",
 		"pdfjs-dist": "2.5.207",
 		"pdfvuer": "^2.0.1",
