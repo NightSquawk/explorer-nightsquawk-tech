@@ -16,6 +16,9 @@ on:
       - 'LICENSE'
       - '.editorconfig'
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest

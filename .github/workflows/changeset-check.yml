@@ -8,6 +8,9 @@ on:
       - 'LICENSE'
       - '.editorconfig'
 
+permissions:
+  contents: read
+
 jobs:
   changeset:
     name: Require changeset

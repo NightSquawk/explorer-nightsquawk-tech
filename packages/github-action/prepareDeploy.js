@@ -93,7 +93,9 @@ preview_bucket_name = '${bucketName}'
   }
 }
 
-console.log(wranglerConfig);
+// Not logged: wranglerConfig can embed CF_ACCOUNT_ID (a secret) when it's set,
+// so print only the destination path instead of the rendered contents.
+console.log(`Writing ${baseDir}/wrangler.toml`);
 fs.writeFileSync(`${baseDir}/wrangler.toml`, wranglerConfig);
 
 if (!fs.existsSync(`${baseDir}/src/`)) {
