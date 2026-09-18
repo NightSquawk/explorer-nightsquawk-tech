@@ -10,3 +10,39 @@ allowBuilds:
   sharp: true
   vue-demi: true
   workerd: true
+
+# Targeted security overrides for transitive-only vulnerabilities. Each key is
+# the *exact declared specifier* of the consumer that pulls in the vulnerable
+# version (e.g. vite@2.9.18's own "rollup": ">=2.59.0 <2.78.0"), not the
+# resolved version -- pnpm only applies an override when its left-hand side
+# matches the specifier string a dependency declares, so this is scoped to
+# just that edge and doesn't touch unrelated same-name packages resolved
+# elsewhere in the tree (e.g. rollup@4.x from vite@7.x/vitest).
+#
+# rollup / serialize-javascript / qs: nested several levels inside
+# @quasar/app-vite@1.11.0 (dashboard build tooling), which cannot be bumped
+# past 1.x without a CJS->ESM quasar.config.js rewrite and a dart-sass upgrade
+# (see maintenance report). Re-evaluate once app-vite is bumped.
+#
+# sharp: pinned by miniflare@5.20260815.0-alpha, itself pinned by the
+# wrangler@4.124.0 that @cloudflare/vitest-pool-workers@0.22.0 depends on
+# internally (separate from -- and older than -- this repo's own top-level
+# wrangler@4.134.0, which already resolves a patched miniflare/sharp on its
+# own). Re-evaluate once vitest-pool-workers bumps its internal wrangler pin.
+overrides:
+  "rollup@>=2.59.0 <2.78.0": "2.80.0"
+  "serialize-javascript@^6.0.0": "7.1.1"
+  "qs@~6.15.1": "6.16.0"
+  "sharp@0.35.2": "0.35.4"
+
+# NOTE: packages/dashboard's `vitest` is intentionally left on ^3.2.7 (not
+# bumped to 4.x like packages/worker's) -- see the maintenance report for why:
+# vitest@4 requires vite as a peer (^6||^7||^8), but pnpm's peer resolution
+# unifies "vite" workspace-wide with whatever @quasar/app-vite@1.11.0 pins
+# (vite@2.9.18) for the dashboard's actual `quasar build`. Every way tried to
+# give vitest a newer vite (a plain top-level "vite" devDependency, and a
+# "vitest>vite" scoped override, which pnpm doesn't apply to auto-resolved
+# peer slots) either had no effect or regressed `quasar build` itself
+# ("Missing './preload-helper' export in 'vite' package", removed in modern
+# vite) by shadowing @quasar/app-vite's own pinned copy at the dashboard
+# package root. Deferred until @quasar/app-vite is bumped past 1.x.
