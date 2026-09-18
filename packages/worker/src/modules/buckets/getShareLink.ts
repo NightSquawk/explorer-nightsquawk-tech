@@ -55,14 +55,31 @@ export class GetShareLink extends OpenAPIRoute {
 				continue;
 			}
 
-			const shareObject = await currentBucket.get(
-				`.r2-explorer/sharable-links/${shareId}.json`,
-			);
+			// `typeof x.get === "function"` is the only duck-typing check available
+			// here (there's no `instanceof R2Bucket` for runtime bindings), and it
+			// can't distinguish a real R2Bucket from other binding kinds (service /
+			// RPC / Durable Object namespace bindings, e.g. test-only bindings
+			// injected by @cloudflare/vitest-pool-workers) whose stubs also report
+			// every property as a callable function via RPC promise pipelining --
+			// including on whatever a `.get()` call against them resolves to -- so
+			// neither a `typeof` check nor a try/catch around just the `.get()`
+			// call is enough to rule them out; the "not implemented" error can
+			// just as easily surface one property-access later (e.g. on
+			// `.text()`). Wrap the whole probe (fetch + parse) for this key in one
+			// try/catch so any binding that isn't really an R2Bucket is skipped
+			// instead of 500ing the whole request.
+			try {
+				const shareObject = await currentBucket.get(
+					`.r2-explorer/sharable-links/${shareId}.json`,
+				);
 
-			if (shareObject) {
-				shareMetadata = JSON.parse(await shareObject.text()) as ShareMetadata;
-				bucket = currentBucket;
-				break;
+				if (shareObject) {
+					shareMetadata = JSON.parse(await shareObject.text()) as ShareMetadata;
+					bucket = currentBucket;
+					break;
+				}
+			} catch {
+				// Not a real R2Bucket -- try the next binding.
 			}
 		}
 
