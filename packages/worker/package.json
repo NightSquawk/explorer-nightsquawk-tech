@@ -59,7 +59,7 @@
 		"@cloudflare/workers-types": "^4.20260702.1",
 		"@types/node": "^24.13.3",
 		"@vitest/coverage-istanbul": "^3.2.7",
-		"hono": "^4.13.5",
+		"hono": "^4.13.7",
 		"publint": "^0.3.24",
 		"tsup": "^8.5.1",
 		"typescript": "^5.9.3",
