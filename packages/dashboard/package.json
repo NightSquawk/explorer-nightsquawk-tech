@@ -14,7 +14,7 @@
 		"deploy-dev": "wrangler pages deploy --branch dev --project-name r2-explorer-dashboard dist/spa/"
 	},
 	"dependencies": {
-		"@quasar/cli": "^2.5.0",
+		"@quasar/cli": "^5.0.4",
 		"@quasar/extras": "^1.18.0",
 		"axios": "^1.20.0",
 		"fflate": "^0.8.3",
