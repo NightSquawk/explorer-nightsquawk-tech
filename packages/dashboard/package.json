@@ -24,17 +24,17 @@
 		"pinia": "^2.3.1",
 		"postal-mime": "^2.7.6",
 		"quasar": "^2.17.5",
-		"vue": "^3.5.42",
+		"vue": "^3.5.43",
 		"vue-router": "^4.6.4"
 	},
 	"devDependencies": {
 		"@quasar/app-vite": "^1.11.0",
 		"@vitejs/plugin-vue": "^5.2.4",
-		"@vue/test-utils": "^2.5.0",
-		"autoprefixer": "^10.5.4",
+		"@vue/test-utils": "^2.5.1",
+		"autoprefixer": "^10.6.1",
 		"dotenv": "^16.6.1",
-		"happy-dom": "^17.6.3",
-		"postcss": "^8.5.26",
+		"happy-dom": "^20.14.5",
+		"postcss": "^8.5.28",
 		"vitest": "^3.2.7"
 	},
 	"engines": {
